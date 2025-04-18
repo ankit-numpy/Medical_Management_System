@@ -28,7 +28,7 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/CH-Anonymous/medical-management-system.git
+   git clone https://github.com/CH-Anonymous/Medical_Management_System.git
    cd medical-management-system
    ```
 
@@ -40,9 +40,9 @@ Before you begin, ensure you have the following installed:
 3. **Set up the MySQL database**:
    Open your MySQL client and run:
    ```sql
-   CREATE DATABASE HealthCareOrgDB;
+   CREATE DATABASE schema;
 
-   USE HealthCareOrgDB;
+   USE schema;
 
    CREATE TABLE IF NOT EXISTS Patients (
        patient_id INT AUTO_INCREMENT PRIMARY KEY,
