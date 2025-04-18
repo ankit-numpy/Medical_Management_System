@@ -1,13 +1,5 @@
-That README is looking awesome and professional—great for showcasing your **Medical Management System** project! 🎉
-
-To make it even easier, here’s a downloadable version of your `README.md` file that you can save and drop directly into your project folder:
-
----
-
-### 📄 Final `README.md` Content
-
 ```markdown
-# Medical Management System
+### Medical Management System
 
 A simple medical management system built using Python, MySQL, and Streamlit. This application allows users to manage patient records and appointments efficiently.
 
