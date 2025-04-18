@@ -96,12 +96,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Inspired by real-world healthcare record management challenges.
 
 ```
-
----
-
-Would you like me to help you:
-- Write a sample `LICENSE` file?
-- Add a screenshot preview section?
-- Create a `.gitignore` for your project?
-
-Let me know and I’ll help set that up too! 💻✅
