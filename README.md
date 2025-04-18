@@ -1,4 +1,3 @@
-```markdown
 ### Medical Management System
 
 A simple medical management system built using Python, MySQL, and Streamlit. This application allows users to manage patient records and appointments efficiently.
