@@ -44,21 +44,29 @@ Before you begin, ensure you have the following installed:
 
    USE schema;
 
-   CREATE TABLE IF NOT EXISTS Patients (
-       patient_id INT AUTO_INCREMENT PRIMARY KEY,
-       name VARCHAR(255) NOT NULL,
-       age INT,
-       gender VARCHAR(10),
-       contact_number VARCHAR(15)
-   );
+ CREATE TABLE IF NOT EXISTS patients (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    age INTEGER,
+    gender TEXT,
+    contact_info TEXT
+);
 
-   CREATE TABLE IF NOT EXISTS Appointments (
-       appointment_id INT AUTO_INCREMENT PRIMARY KEY,
-       patient_id INT,
-       appointment_date DATETIME,
-       doctor_name VARCHAR(255),
-       FOREIGN KEY (patient_id) REFERENCES Patients(patient_id)
-   );
+CREATE TABLE IF NOT EXISTS appointments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    patient_id INTEGER,
+    appointment_date TEXT,
+    doctor_name TEXT,
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
+);
+
+CREATE TABLE IF NOT EXISTS prescriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    patient_id INTEGER,
+    medication TEXT,
+    dosage TEXT,
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
+);
    ```
 
 4. **Configure database connection**:
