@@ -44,28 +44,48 @@ Before you begin, ensure you have the following installed:
 
    USE schema;
 
-    CREATE TABLE IF NOT EXISTS patients (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    age INTEGER,
-    gender TEXT,
-    contact_info TEXT
+     -- 1. Table for storing patient details
+      CREATE TABLE patients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    contact_number VARCHAR(15)
    );
 
-      CREATE TABLE IF NOT EXISTS appointments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    patient_id INTEGER,
-    appointment_date TEXT,
-    doctor_name TEXT,
+   -- 2. Table for storing appointments
+    CREATE TABLE appointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    appointment_date DATETIME NOT NULL,
+    doctor_name VARCHAR(100) NOT NULL,
     FOREIGN KEY (patient_id) REFERENCES patients(id)
    );
 
-   CREATE TABLE IF NOT EXISTS prescriptions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    patient_id INTEGER,
-    medication TEXT,
-    dosage TEXT,
+   -- 3. Table for storing prescriptions
+    CREATE TABLE prescriptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    medication TEXT NOT NULL,
+    dosage VARCHAR(100),
+    instructions TEXT,
     FOREIGN KEY (patient_id) REFERENCES patients(id)
+   );
+
+   -- 4. Table for storing billing information
+    CREATE TABLE bills (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    description TEXT,
+    amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
+   );
+
+   -- 5. Table for login users (admin/staff)
+    CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL  -- (You can later hash passwords for security)
    );
    ```
 
