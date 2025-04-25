@@ -44,7 +44,7 @@ Before you begin, ensure you have the following installed:
 
    USE schema;
 
-     -- 1. Table for storing patient details
+     
       CREATE TABLE patients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -53,7 +53,7 @@ Before you begin, ensure you have the following installed:
     contact_number VARCHAR(15)
    );
 
-   -- 2. Table for storing appointments
+   
     CREATE TABLE appointments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
@@ -62,7 +62,7 @@ Before you begin, ensure you have the following installed:
     FOREIGN KEY (patient_id) REFERENCES patients(id)
    );
 
-   -- 3. Table for storing prescriptions
+   
     CREATE TABLE prescriptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
@@ -70,9 +70,8 @@ Before you begin, ensure you have the following installed:
     dosage VARCHAR(100),
     instructions TEXT,
     FOREIGN KEY (patient_id) REFERENCES patients(id)
-   );
-
-   -- 4. Table for storing billing information
+   )
+   
     CREATE TABLE bills (
     id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
@@ -81,7 +80,6 @@ Before you begin, ensure you have the following installed:
     FOREIGN KEY (patient_id) REFERENCES patients(id)
    );
 
-   -- 5. Table for login users (admin/staff)
     CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
