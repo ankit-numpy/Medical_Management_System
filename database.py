@@ -1,12 +1,8 @@
-import mysql.connector
+import sqlite3
 
+# Use a file-based SQLite DB (e.g., 'clinic.db')
 def connect_db():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',  
-        password='102410',  
-        database='schema' 
-    )
+    return sqlite3.connect('clinic.db')
 
 
 def create_patient(name, age, gender, contact_number):
@@ -14,11 +10,12 @@ def create_patient(name, age, gender, contact_number):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO patients (name, age, gender, contact_number)
-        VALUES (%s, %s, %s, %s)
+        VALUES (?, ?, ?, ?)
     ''', (name, age, gender, contact_number))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_patients():
     conn = connect_db()
@@ -35,11 +32,12 @@ def create_appointment(patient_id, appointment_date, doctor_name):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO appointments (patient_id, appointment_date, doctor_name)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     ''', (patient_id, appointment_date, doctor_name))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_appointments():
     conn = connect_db()
@@ -60,11 +58,12 @@ def create_prescription(patient_id, medication, dosage, instructions):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO prescriptions (patient_id, medication, dosage, instructions)
-        VALUES (%s, %s, %s, %s)
+        VALUES (?, ?, ?, ?)
     ''', (patient_id, medication, dosage, instructions))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_prescriptions():
     conn = connect_db()
@@ -83,11 +82,12 @@ def create_bill(patient_id, description, amount):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO bills (patient_id, description, amount)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     ''', (patient_id, description, amount))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_bills():
     conn = connect_db()
@@ -98,13 +98,14 @@ def get_bills():
     bills = cursor.fetchall()
     cursor.close()
     conn.close()
-    return 
-    
+    return bills
+
+
 def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT * FROM users WHERE username = %s AND password = %s
+        SELECT * FROM users WHERE username = ? AND password = ?
     ''', (username, password))
     result = cursor.fetchone()
     cursor.close()
