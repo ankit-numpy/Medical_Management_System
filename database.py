@@ -1,8 +1,74 @@
 import sqlite3
 
-# Use a file-based SQLite DB (e.g., 'clinic.db')
 def connect_db():
-    return sqlite3.connect('clinic.db')
+    conn = sqlite3.connect('clinic.db')
+    create_tables(conn)  # Ensure tables exist
+    return conn
+
+
+def create_tables(conn):
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS patients (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            age INTEGER,
+            gender TEXT,
+            contact_number TEXT
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS appointments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER,
+            appointment_date TEXT,
+            doctor_name TEXT,
+            FOREIGN KEY (patient_id) REFERENCES patients(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS prescriptions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER,
+            medication TEXT,
+            dosage TEXT,
+            instructions TEXT,
+            FOREIGN KEY (patient_id) REFERENCES patients(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS bills (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER,
+            description TEXT,
+            amount REAL,
+            FOREIGN KEY (patient_id) REFERENCES patients(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            username TEXT PRIMARY KEY,
+            password TEXT NOT NULL
+        )
+    ''')
+    
+    # Insert default admin user if not exists
+    cursor.execute('''
+        INSERT OR IGNORE INTO users (username, password)
+        VALUES ('admin', 'admin123')
+    ''')
+    cursor1 = conn.cursor()
+    cursor1.execute('''insert into users (username, password) values ('admin','admin123')''')
+    
+
+    conn.commit()
+    cursor1.close()
+    cursor.close()
 
 
 def create_patient(name, age, gender, contact_number):
@@ -104,9 +170,6 @@ def get_bills():
 def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
-    cursor1 = conn.cursor()
-    cursor1.execute('''insert into users (username, password) values ('admin','admin123')''')
-    cursor1.close()
     cursor.execute('''
         SELECT * FROM users WHERE username = ? AND password = ?
     ''', (username, password))
