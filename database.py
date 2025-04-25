@@ -1,15 +1,14 @@
 import mysql.connector
 
-# --- Connect to Database ---
 def connect_db():
     return mysql.connector.connect(
         host='localhost',
-        user='root',  # Replace with your MySQL username
-        password='102410',  # Replace with your MySQL password
-        database='schema'  # Replace with your DB name
+        user='root',  
+        password='102410',  
+        database='schema' 
     )
 
-# --- Patient Operations ---
+
 def create_patient(name, age, gender, contact_number):
     conn = connect_db()
     cursor = conn.cursor()
@@ -30,7 +29,7 @@ def get_patients():
     conn.close()
     return patients
 
-# --- Appointment Operations ---
+
 def create_appointment(patient_id, appointment_date, doctor_name):
     conn = connect_db()
     cursor = conn.cursor()
@@ -55,7 +54,7 @@ def get_appointments():
     conn.close()
     return appointments
 
-# --- Prescription Operations ---
+
 def create_prescription(patient_id, medication, dosage, instructions):
     conn = connect_db()
     cursor = conn.cursor()
@@ -78,7 +77,7 @@ def get_prescriptions():
     conn.close()
     return prescriptions
 
-# --- Billing Operations ---
+
 def create_bill(patient_id, description, amount):
     conn = connect_db()
     cursor = conn.cursor()
@@ -99,9 +98,8 @@ def get_bills():
     bills = cursor.fetchall()
     cursor.close()
     conn.close()
-    return bills
-
-# --- User Login (Authentication) ---
+    return 
+    
 def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
