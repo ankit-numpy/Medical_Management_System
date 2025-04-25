@@ -8,7 +8,6 @@ from database import (
     login_user
 )
 
-# --- User Authentication ---
 def login():
     st.sidebar.subheader("Login")
     username = st.sidebar.text_input("Username")
@@ -28,7 +27,7 @@ if not st.session_state.logged_in:
     login()
     st.stop()
 
-# --- App Layout ---
+
 st.title("Medical Management System")
 
 menu = [
@@ -39,7 +38,7 @@ menu = [
 ]
 choice = st.sidebar.selectbox("Select an option", menu)
 
-# --- Patient Registration ---
+
 if choice == "Add Patient":
     st.subheader("Add Patient")
     name = st.text_input("Name")
@@ -65,7 +64,7 @@ elif choice == "View Patients":
     else:
         st.write("No patients found.")
 
-# --- Appointments ---
+
 elif choice == "Add Appointment":
     st.subheader("Add Appointment")
     patient_id = st.number_input("Patient ID", min_value=1)
@@ -91,7 +90,7 @@ elif choice == "View Appointments":
     else:
         st.write("No appointments found.")
 
-# --- Prescriptions ---
+
 elif choice == "Add Prescription":
     st.subheader("Add Prescription")
     patient_id = st.number_input("Patient ID", min_value=1)
@@ -117,7 +116,7 @@ elif choice == "View Prescriptions":
     else:
         st.write("No prescriptions found.")
 
-# --- Billing ---
+
 elif choice == "Add Bill":
     st.subheader("Add Bill")
     patient_id = st.number_input("Patient ID", min_value=1)
