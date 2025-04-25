@@ -62,12 +62,12 @@ def create_tables(conn):
         INSERT OR IGNORE INTO users (username, password)
         VALUES ('admin', 'admin123')
     ''')
-    cursor1 = conn.cursor()
-    cursor1.execute('''insert into users (username, password) values ('admin','admin123')''')
+    #cursor1 = conn.cursor()
+    #cursor1.execute('''insert into users (username, password) values ('admin','admin123')''')
     
 
     conn.commit()
-    cursor1.close()
+    #cursor1.close()
     cursor.close()
 
 
