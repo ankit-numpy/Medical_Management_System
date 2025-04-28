@@ -1,12 +1,74 @@
-import mysql.connector
+import sqlite3
 
 def connect_db():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',  
-        password='102410',  
-        database='schema' 
-    )
+    conn = sqlite3.connect('clinic.db')
+    create_tables(conn)  # Ensure tables exist
+    return conn
+
+
+def create_tables(conn):
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS patients (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            age INTEGER,
+            gender TEXT,
+            contact_number TEXT
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS appointments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER,
+            appointment_date TEXT,
+            doctor_name TEXT,
+            FOREIGN KEY (patient_id) REFERENCES patients(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS prescriptions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER,
+            medication TEXT,
+            dosage TEXT,
+            instructions TEXT,
+            FOREIGN KEY (patient_id) REFERENCES patients(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS bills (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER,
+            description TEXT,
+            amount REAL,
+            FOREIGN KEY (patient_id) REFERENCES patients(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            username TEXT PRIMARY KEY,
+            password TEXT NOT NULL
+        )
+    ''')
+    
+    # Insert default admin user if not exists
+    cursor.execute('''
+        INSERT OR IGNORE INTO users (username, password)
+        VALUES ('admin', 'admin123')
+    ''')
+    #cursor1 = conn.cursor()
+    #cursor1.execute('''insert into users (username, password) values ('admin','admin123')''')
+    
+
+    conn.commit()
+    #cursor1.close()
+    cursor.close()
 
 
 def create_patient(name, age, gender, contact_number):
@@ -14,11 +76,12 @@ def create_patient(name, age, gender, contact_number):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO patients (name, age, gender, contact_number)
-        VALUES (%s, %s, %s, %s)
+        VALUES (?, ?, ?, ?)
     ''', (name, age, gender, contact_number))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_patients():
     conn = connect_db()
@@ -35,11 +98,12 @@ def create_appointment(patient_id, appointment_date, doctor_name):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO appointments (patient_id, appointment_date, doctor_name)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     ''', (patient_id, appointment_date, doctor_name))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_appointments():
     conn = connect_db()
@@ -60,11 +124,12 @@ def create_prescription(patient_id, medication, dosage, instructions):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO prescriptions (patient_id, medication, dosage, instructions)
-        VALUES (%s, %s, %s, %s)
+        VALUES (?, ?, ?, ?)
     ''', (patient_id, medication, dosage, instructions))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_prescriptions():
     conn = connect_db()
@@ -83,11 +148,12 @@ def create_bill(patient_id, description, amount):
     cursor = conn.cursor()
     cursor.execute('''
         INSERT INTO bills (patient_id, description, amount)
-        VALUES (%s, %s, %s)
+        VALUES (?, ?, ?)
     ''', (patient_id, description, amount))
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def get_bills():
     conn = connect_db()
@@ -98,13 +164,14 @@ def get_bills():
     bills = cursor.fetchall()
     cursor.close()
     conn.close()
-    return 
-    
+    return bills
+
+
 def login_user(username, password):
     conn = connect_db()
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT * FROM users WHERE username = %s AND password = %s
+        SELECT * FROM users WHERE username = ? AND password = ?
     ''', (username, password))
     result = cursor.fetchone()
     cursor.close()
