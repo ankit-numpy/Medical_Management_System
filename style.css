@@ -1,0 +1,59 @@
+/* --- FLOATING CHAT WINDOW CONTAINER --- */
+
+/* This targets the main Streamlit element where your content lives. 
+   NOTE: The class name (e.g., .st-emotion-cache-z5xscy) is highly version-dependent. 
+   You may need to inspect your running app to find the correct one if this doesn't work.
+   It's generally the container holding all your visible components.
+*/
+.main > div {
+    /* The key properties for the floating effect */
+    position: fixed; 
+    bottom: 20px; /* 20px from the bottom */
+    right: 20px; /* 20px from the right */
+    
+    /* Styling and dimensions for the chatbot window */
+    width: 350px; 
+    height: 500px; 
+    z-index: 9999; 
+    border: 2px solid #007bff; /* Medical Blue border */
+    border-radius: 15px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); 
+    background-color: white; 
+    overflow: hidden; /* Hide main scrollbar */
+    padding: 10px;
+}
+
+/* --- CHAT INPUT FIX --- */
+
+/* Ensures the chat input remains at the very bottom of the floating box */
+.stChatInput {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* Add padding/margin to keep it neat */
+    padding: 10px 10px 10px 10px; 
+    background-color: white; 
+    border-top: 1px solid #eee;
+    z-index: 10000;
+}
+
+/* Adjust the chat message container to give space to the fixed input box */
+/* This targets the container that holds the message history */
+.main > div > section > div {
+    height: calc(100% - 70px); /* Total height minus input area height */
+    overflow-y: auto; /* Make the message history scrollable */
+    padding-bottom: 70px; 
+}
+
+
+/* --- HIDE DEFAULT STREAMLIT ELEMENTS --- */
+
+/* Hide the main header and sidebar menu icon if they interfere */
+.stApp header {
+    display: none !important;
+}
+
+#root > div:nth-child(1) > div > div > div.stActionButton {
+    display: none;
+}
